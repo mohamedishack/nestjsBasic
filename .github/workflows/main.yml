@@ -15,6 +15,21 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  mongodb-action:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mongodb-version: [4.0, 4.2]
+
+    name: Start MongoDB Server v${{ matrix.mongodb-version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Start MongoDB Server
+        uses: ./
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
