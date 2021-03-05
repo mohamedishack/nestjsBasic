@@ -1,13 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-
-import { Hobby, HobbyDocument } from './hobby.model';
-import {
-  CreateHobbyInput,
-  ListHobbyInput,
-  UpdateHobbyInput,
-} from './hobby.inputs';
+import { CreateHobbyInput, ListHobbyInput, UpdateHobbyInput } from './dto/hobby.inputs';
+import { Hobby, HobbyDocument } from './schema/hobby.model';
 
 @Injectable()
 export class HobbyService {
@@ -34,7 +29,7 @@ export class HobbyService {
       .exec();
   }
 
-  delete(_id: Types.ObjectId) {
+  delete(_id: string) {
     return this.hobbyModel.findByIdAndDelete(_id).exec();
   }
 }

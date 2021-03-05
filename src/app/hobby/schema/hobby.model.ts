@@ -1,14 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Field, ObjectType } from '@nestjs/graphql';
 import { Document, Types } from 'mongoose';
 
-@ObjectType()
 @Schema()
 export class Hobby {
-  @Field(() => String)
-  _id: Types.ObjectId;
+  _id?: string;
 
-  @Field(() => String)
   @Prop()
   name: string;
 }
