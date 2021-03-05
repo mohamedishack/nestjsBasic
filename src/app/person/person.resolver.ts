@@ -6,58 +6,50 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { Types } from 'mongoose';
-
-import { Person, PersonDocument } from './person.model';
+import { CreatePersonInput, ListPersonInput, UpdatePersonInput } from './dto/person.inputs';
+import { PersonRes } from './dto/person.res';
 import { PersonService } from './person.service';
-import {
-  CreatePersonInput,
-  ListPersonInput,
-  UpdatePersonInput,
-} from './person.inputs';
-import { Hobby } from '../hobby/hobby.model';
 
-@Resolver(() => Person)
+@Resolver(() => PersonRes)
 export class PersonResolver {
   constructor(private personService: PersonService) {}
 
-  @Query(() => Person)
-  async person(@Args('_id', { type: () => String }) _id: Types.ObjectId) {
+  @Query(() => PersonRes)
+  async person(@Args('_id', { type: () => String }) _id: string) {
     return this.personService.getById(_id);
   }
 
-  @Query(() => [Person])
+  @Query(() => [PersonRes])
   async persons(
     @Args('filters', { nullable: true }) filters?: ListPersonInput,
   ) {
     return this.personService.list(filters);
   }
 
-  @Mutation(() => Person)
+  @Mutation(() => PersonRes)
   async createPerson(@Args('payload') payload: CreatePersonInput) {
     return this.personService.create(payload);
   }
 
-  @Mutation(() => Person)
+  @Mutation(() => PersonRes)
   async updatePerson(@Args('payload') payload: UpdatePersonInput) {
     return this.personService.update(payload);
   }
 
-  @Mutation(() => Person)
-  async deletePerson(@Args('_id', { type: () => String }) _id: Types.ObjectId) {
+  @Mutation(() => PersonRes)
+  async deletePerson(@Args('_id', { type: () => String }) _id: string) {
     return this.personService.delete(_id);
   }
 
-  @ResolveField()
-  async hobbies(
-    @Parent() person: PersonDocument,
-    @Args('populate') populate: boolean,
-  ) {
-    if (populate)
-      await person
-        .populate({ path: 'hobbies', model: Hobby.name })
-        .execPopulate();
-
-    return person.hobbies;
-  }
+  // @ResolveField()
+  // async hobbies(
+  //   @Parent() person: PersonDocument,
+  //   @Args('populate') populate: boolean,
+  // ) {
+  //   if (populate)
+  //     await person
+  //       .populate({ path: 'hobbies', model: Hobby.name })
+  //       .execPopulate();
+  //   return person.hobbies;
+  // }
 }

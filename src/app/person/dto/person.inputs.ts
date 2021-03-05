@@ -7,29 +7,29 @@ export class CreatePersonInput {
   name: string;
 
   @Field(() => [String])
-  hobbies: Types.ObjectId[];
+  hobbies: string[];
 }
 
 @InputType()
 export class ListPersonInput {
   @Field(() => String, { nullable: true })
-  _id?: Types.ObjectId;
+  _id?: string;
 
   @Field(() => String, { nullable: true })
   name?: string;
 
   @Field(() => [String], { nullable: true })
-  hobbies?: Types.ObjectId[];
+  hobbies?: string[];
 }
 
 @InputType()
 export class UpdatePersonInput {
   @Field(() => String)
-  _id: Types.ObjectId;
+  _id: string;
 
   @Field(() => String, { nullable: true })
   name?: string;
 
   @Field(() => [String], { nullable: true })
-  hobbies?: Types.ObjectId[];
+  hobbies?: string[];
 }

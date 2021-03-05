@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-
-import { Hobby, HobbySchema } from './hobby.model';
 import { HobbyService } from './hobby.service';
 import { HobbyResolver } from './hobby.resolver';
+import { Hobby, HobbySchema } from './schema/hobby.model';
 
 @Module({
   imports: [

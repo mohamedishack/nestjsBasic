@@ -1,40 +1,36 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Types } from 'mongoose';
+import { CreateHobbyInput, ListHobbyInput, UpdateHobbyInput } from './dto/hobby.inputs';
+import { HobbyRes } from './dto/hobby.res';
 
-import { Hobby } from './hobby.model';
 import { HobbyService } from './hobby.service';
-import {
-  CreateHobbyInput,
-  ListHobbyInput,
-  UpdateHobbyInput,
-} from './hobby.inputs';
 
-@Resolver(() => Hobby)
+@Resolver(() => HobbyRes)
 export class HobbyResolver {
   constructor(private hobbyService: HobbyService) {}
 
-  @Query(() => Hobby)
-  async hobby(@Args('_id', { type: () => String }) _id: Types.ObjectId) {
-    return this.hobbyService.getById(_id);
-  }
+  // @Query(() => Hobby)
+  // async hobby(@Args('_id', { type: () => String }) _id: string) {
+  //   return this.hobbyService.getById(_id);
+  // }
 
-  @Query(() => [Hobby])
+  @Query(() => [HobbyRes])
   async hobbies(@Args('filters', { nullable: true }) filters?: ListHobbyInput) {
     return this.hobbyService.list(filters);
   }
 
-  @Mutation(() => Hobby)
+  @Mutation(() => HobbyRes)
   async createHobby(@Args('payload') payload: CreateHobbyInput) {
     return this.hobbyService.create(payload);
   }
 
-  @Mutation(() => Hobby)
+  @Mutation(() => HobbyRes)
   async updateHobby(@Args('payload') payload: UpdateHobbyInput) {
     return this.hobbyService.update(payload);
   }
 
-  @Mutation(() => Hobby)
-  async deleteHobby(@Args('_id', { type: () => String }) _id: Types.ObjectId) {
+  @Mutation(() => HobbyRes)
+  async deleteHobby(@Args('_id', { type: () => String }) _id: string) {
     return this.hobbyService.delete(_id);
   }
 }
